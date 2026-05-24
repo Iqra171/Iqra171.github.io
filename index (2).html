@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iqra Zafar — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Syne:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050f05;
+  --bg2:#081208;
+  --surface:#0d1f0d;
+  --border:#1a2e1a;
+  --border2:#243824;
+  --green:#4ade80;
+  --green2:#86efac;
+  --green3:#166534;
+  --green-dim:#1a4a1a;
+  --text:#e8f5e8;
+  --muted:#6b9e6b;
+  --card:#0a1a0a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;font-weight:300;line-height:1.6;cursor:none}
+
+/* custom cursor */
+.cursor{width:10px;height:10px;background:var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .15s ease;mix-blend-mode:difference}
+.cursor-ring{width:36px;height:36px;border:1px solid var(--green);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:all .1s ease;opacity:.5}
+
+/* grid bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;opacity:.3;pointer-events:none;z-index:0
+}
+
+.wrap{max-width:900px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+
+/* nav */
+nav{padding:1.5rem 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;color:var(--green);letter-spacing:.1em}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;transition:color .2s;text-decoration:none}
+.nav-links a:hover{color:var(--green)}
+
+/* hero */
+.hero{padding:5rem 0 4rem;position:relative}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:11px;color:var(--green);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px}
+.hero-eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--green3),transparent)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);line-height:1.0;letter-spacing:-.02em;margin-bottom:1.5rem}
+.hero h1 span{color:var(--green);display:block}
+.hero-bio{font-size:1rem;color:var(--muted);max-width:500px;line-height:1.8;margin-bottom:2.5rem}
+.hero-bio strong{color:var(--green2);font-weight:500}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;padding:10px 22px;transition:all .2s;text-decoration:none;border-radius:2px}
+.btn-primary{background:var(--green);color:#050f05;font-weight:700}
+.btn-primary:hover{background:var(--green2)}
+.btn-outline{border:1px solid var(--border2);color:var(--muted)}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+
+/* stats row */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:3rem 0}
+.stat{background:var(--card);padding:1.4rem 1rem;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--green);display:block;line-height:1}
+.stat-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+/* section */
+.section{padding:4rem 0}
+.sec-header{margin-bottom:2.5rem}
+.sec-tag{font-family:'Space Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:2rem;letter-spacing:-.01em}
+
+/* projects */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.proj{background:var(--card);padding:2rem;transition:background .25s;position:relative}
+.proj:hover{background:var(--surface)}
+.proj.wide{grid-column:1/-1}
+.proj-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;margin-bottom:.8rem}
+.proj-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.6rem;line-height:1.2}
+.proj-desc{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.2rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.2rem}
+.ptag{font-family:'Space Mono',monospace;font-size:9px;padding:3px 9px;border:1px solid var(--border2);color:var(--muted);letter-spacing:.05em}
+.ptag.g{border-color:var(--green3);color:var(--green2)}
+.proj-link{font-family:'Space Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.05em;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap .2s}
+.proj-link:hover{gap:9px}
+.proj-link.off{color:var(--muted);cursor:default}
+.wip{position:absolute;top:1rem;right:1rem;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;padding:2px 8px;border:1px solid var(--green3);color:var(--green3)}
+
+/* achievements */
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.ach{background:var(--card);padding:1.5rem;transition:background .2s}
+.ach:hover{background:var(--surface)}
+.ach-icon{font-size:1.2rem;margin-bottom:.6rem}
+.ach-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--green2);margin-bottom:.3rem;letter-spacing:.04em}
+.ach-sub{font-size:.83rem;color:var(--muted);line-height:1.5}
+
+/* fun facts */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.fact{background:var(--card);padding:1.5rem;transition:background .2s}
+.fact:hover{background:var(--surface)}
+.fact-q{font-family:'Space Mono',monospace;font-size:9px;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.fact-a{font-size:.88rem;color:var(--muted);line-height:1.6}
+.fact-a em{color:var(--green2);font-style:normal}
+
+/* skills */
+.skills-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.skill-group{background:var(--card);padding:1.4rem}
+.sg-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--green);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.7rem}
+.sg-items{display:flex;flex-wrap:wrap;gap:5px}
+.skill-pill{font-family:'Space Mono',monospace;font-size:9px;padding:3px 10px;border:1px solid var(--border2);color:var(--muted)}
+
+/* experience */
+.exp-list{border:1px solid var(--border)}
+.exp-item{padding:1.4rem 1.6rem;border-bottom:1px solid var(--border);background:var(--card);transition:background .2s}
+.exp-item:last-child{border-bottom:none}
+.exp-item:hover{background:var(--surface)}
+.exp-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.3rem}
+.exp-role{font-family:'Space Mono',monospace;font-size:11px;color:var(--green2);letter-spacing:.04em}
+.exp-date{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.06em}
+.exp-org{font-size:.83rem;color:var(--muted)}
+
+/* contact */
+.contact-bar{padding:3rem 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.contact-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--muted)}
+.contact-links{display:flex;gap:16px;align-items:center}
+.contact-link{font-family:'Space Mono',monospace;font-size:11px;color:var(--green);text-decoration:none;letter-spacing:.05em;transition:color .2s}
+.contact-link:hover{color:var(--green2)}
+
+/* animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.blink{animation:blink 1.2s step-end infinite}
+nav,.hero,.stats{animation:fadeUp .5s ease both}
+.section{animation:fadeUp .5s ease both}
+
+@media(max-width:620px){
+  .proj-grid,.ach-grid,.facts,.skills-wrap{grid-template-columns:1fr}
+  .proj.wide{grid-column:1}
+  .stats{grid-template-columns:2fr 2fr}
+  .contact-bar{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curR"></div>
+
+<div class="wrap">
+
+  <nav>
+    <span class="nav-logo">IZ<span class="blink">_</span></span>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">CS Student · UET Taxila · Pakistan</div>
+    <h1>Iqra<span>Zafar.</span></h1>
+    <p class="hero-bio">
+      Building systems that go <strong>beyond detection</strong> toward understanding. 
+      Interested in computer vision, intelligent transportation AI, and human-centered machine learning. 
+      <strong>CGPA 3.46/4.0</strong> · UET Taxila, Pakistan.
+    </p>
+    <div class="cta-row">
+      <a href="https://github.com/Iqra171" target="_blank" class="btn btn-primary">↗ GitHub</a>
+      <a href="https://www.linkedin.com/in/iqra-zafar-19b681297/" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="mailto:iqrazaf05@gmail.com" class="btn btn-outline">Email</a>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-num">3.46</span><span class="stat-label">CGPA / 4.0</span></div>
+    <div class="stat"><span class="stat-num">7,527</span><span class="stat-label">Meta Hacker Cup rank</span></div>
+    <div class="stat"><span class="stat-num">9/9</span><span class="stat-label">CS50x Puzzle Day</span></div>
+    <div class="stat"><span class="stat-num">100+</span><span class="stat-label">LeetCode problems</span></div>
+  </div>
+
+  <section class="section" id="projects">
+    <div class="sec-header">
+      <div class="sec-tag">// selected work</div>
+      <div class="sec-title">Projects</div>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj wide">
+        <span class="wip">IN PROGRESS</span>
+        <div class="proj-num">01 · Final Year Project</div>
+        <div class="proj-title">AR Museum Experience: Augmented Reality Storytelling Platform</div>
+        <p class="proj-desc">Point your phone at an artifact at the Taxila Museum world heritage site and the system identifies it, then narrates its cultural and historical significance. First project of its kind in the region. Built on a custom-collected dataset from the museum itself. The model doesn't just detect — it explains.</p>
+        <div class="proj-tags">
+          <span class="ptag g">Computer Vision</span>
+          <span class="ptag g">Augmented Reality</span>
+          <span class="ptag">FastAPI</span>
+          <span class="ptag">React</span>
+          <span class="ptag">Docker</span>
+          <span class="ptag">Vercel</span>
+          <span class="ptag">Custom Dataset</span>
+        </div>
+        <span class="proj-link off">🔒 Private repo, in progress</span>
+      </div>
+
+      <div class="proj">
+        <div class="proj-num">02 · Transportation AI</div>
+        <div class="proj-title">Traffic-GNN: Adversarial Robustness</div>
+        <p class="proj-desc">Investigated security of GNNs for traffic prediction under adversarial perturbations. Compared GCN, GAT, and STGCN on METR-LA road network data, exposing accuracy vs robustness tradeoffs in safety-critical systems.</p>
+        <div class="proj-tags">
+          <span class="ptag g">GNN</span>
+          <span class="ptag g">Traffic Prediction</span>
+          <span class="ptag">PyTorch</span>
+          <span class="ptag">Adversarial ML</span>
+        </div>
+        <a href="https://github.com/Iqra171/traffic-gnn-adversarial" target="_blank" class="proj-link">↗ View on GitHub</a>
+      </div>
+
+      <div class="proj">
+        <div class="proj-num">03 · Medical Imaging</div>
+        <div class="proj-title">Federated Brain Tumor Detection</div>
+        <p class="proj-desc">Deep learning model for MRI-based tumor classification inside a federated learning framework simulating distributed hospital training. Byzantine-robust aggregation (Trimmed Mean) + Grad-CAM interpretability.</p>
+        <div class="proj-tags">
+          <span class="ptag g">Medical CV</span>
+          <span class="ptag g">Federated Learning</span>
+          <span class="ptag">TensorFlow</span>
+          <span class="ptag">Grad-CAM</span>
+        </div>
+        <a href="https://github.com/Iqra171/Brain_Tumor_Detection" target="_blank" class="proj-link">↗ View on GitHub</a>
+      </div>
+
+      <div class="proj">
+        <div class="proj-num">04 · Recommender Systems</div>
+        <div class="proj-title">Explainable Movie Recommender</div>
+        <p class="proj-desc">Interactive recommender on MovieLens with honest mode-aware explainability — switches between content-based and CF explanations based on actual algorithm in use; SVD trained offline, deployed on Vercel with real-time feedback.</p>
+        <div class="proj-tags">
+          <span class="ptag g">Explainable AI</span>
+          <span class="ptag">Next.js</span>
+          <span class="ptag">scikit-surprise</span>
+          <span class="ptag">SVD</span>
+        </div>
+        <a href="https://github.com/Iqra171/Movie_Recommendation_System" target="_blank" class="proj-link">↗ View on GitHub</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="sec-header">
+      <div class="sec-tag">// about</div>
+      <div class="sec-title">A bit about me</div>
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <div class="fact-q">Fun fact #1</div>
+        <div class="fact-a">I watch movies with a <em>different agenda</em> — I try to identify the protagonist by analyzing micro-expressions, framing choices, and small behavioral cues before the plot reveals it.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-q">Fun fact #2</div>
+        <div class="fact-a">I collected my own dataset by visiting a <em>real museum</em> — because good research starts with good data, and good data doesn't collect itself.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-q">Fun fact #3</div>
+        <div class="fact-a">I taught Python to students from <em>multiple countries</em> through Stanford's Code in Place, selected out of thousands of applicants as a section leader.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-q">What drives me</div>
+        <div class="fact-a">Detection is the easy part. I'm obsessed with what comes <em>after</em>: understanding meaning, intent, and context from visual data.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-q">Currently building</div>
+        <div class="fact-a">An AR museum curator for a <em>world heritage site</em> near my university — the first of its kind in the region.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-q">Recognition</div>
+        <div class="fact-a">Prime Minister's Laptop Scheme recipient for <em>academic excellence</em>. Top 98 teams globally at Google Cloud AI for Impact APAC Hackathon.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-tag">// achievements</div>
+      <div class="sec-title">Competitions & Events</div>
+    </div>
+    <div class="ach-grid">
+      <div class="ach">
+        <div class="ach-icon">🏆</div>
+        <div class="ach-title">Meta Hacker Cup 2024</div>
+        <div class="ach-sub">Ranked 7,527 out of 23,000 global competitors in algorithmic programming</div>
+      </div>
+      <div class="ach">
+        <div class="ach-icon">☁️</div>
+        <div class="ach-title">Google Cloud AI for Impact APAC</div>
+        <div class="ach-sub">Selected as Top 98 Teams globally for the Prototyping Phase</div>
+      </div>
+      <div class="ach">
+        <div class="ach-icon">🧩</div>
+        <div class="ach-title">CS50x Puzzle Day, Harvard 2025</div>
+        <div class="ach-sub">Solved 9 out of 9 logic and computational puzzles</div>
+      </div>
+      <div class="ach">
+        <div class="ach-icon">🤖</div>
+        <div class="ach-title">LLM Langflow Hackathon, Lablab.ai</div>
+        <div class="ach-sub">Built AI Interview Builder with NLP-based skill matching</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-tag">// stack</div>
+      <div class="sec-title">Technical Skills</div>
+    </div>
+    <div class="skills-wrap">
+      <div class="skill-group">
+        <div class="sg-label">Languages</div>
+        <div class="sg-items">
+          <span class="skill-pill">Python</span><span class="skill-pill">C++</span><span class="skill-pill">Java</span><span class="skill-pill">SQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="sg-label">ML / CV</div>
+        <div class="sg-items">
+          <span class="skill-pill">PyTorch</span><span class="skill-pill">TensorFlow</span><span class="skill-pill">scikit-learn</span><span class="skill-pill">YOLOv8</span><span class="skill-pill">OpenCV</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="sg-label">Web & Deploy</div>
+        <div class="sg-items">
+          <span class="skill-pill">FastAPI</span><span class="skill-pill">React</span><span class="skill-pill">Next.js</span><span class="skill-pill">Docker</span><span class="skill-pill">Vercel</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="sg-label">Tools & Platforms</div>
+        <div class="sg-items">
+          <span class="skill-pill">Git</span><span class="skill-pill">Hugging Face</span><span class="skill-pill">Streamlit</span><span class="skill-pill">Power BI</span><span class="skill-pill">Langflow</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-header">
+      <div class="sec-tag">// experience</div>
+      <div class="sec-title">Teaching & Mentoring</div>
+    </div>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-top">
+          <span class="exp-role">Coding Tutor at ChampCode Academy</span>
+          <span class="exp-date">Feb 2026 – Present</span>
+        </div>
+        <div class="exp-org">Teaching children coding, game design, and computational thinking (Remote)</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-top">
+          <span class="exp-role">Section Leader at Stanford Code in Place</span>
+          <span class="exp-date">Apr – Jun 2025</span>
+        </div>
+        <div class="exp-org">Selected volunteer instructor for Stanford's global Python programming initiative</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-top">
+          <span class="exp-role">Technical Instructor at ICodeGuru, Silicon Valley</span>
+          <span class="exp-date">Remote</span>
+        </div>
+        <div class="exp-org">GRE prep, Python programming, and DSA sessions for international students</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact-bar" id="contact">
+    <span class="contact-text">Open to research opportunities</span>
+    <div class="contact-links">
+      <a href="mailto:iqrazaf05@gmail.com" class="contact-link">iqrazaf05@gmail.com</a>
+      <a href="https://github.com/Iqra171" target="_blank" class="contact-link">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/iqra-zafar-19b681297/" target="_blank" class="contact-link">LinkedIn ↗</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const cur = document.getElementById('cur');
+const curR = document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=(mx-5)+'px'; cur.style.top=(my-5)+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  curR.style.left=(rx-18)+'px'; curR.style.top=(ry-18)+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.style.transform='scale(2.5)');
+  el.addEventListener('mouseleave',()=>cur.style.transform='scale(1)');
+});
+</script>
+</body>
+</html>
